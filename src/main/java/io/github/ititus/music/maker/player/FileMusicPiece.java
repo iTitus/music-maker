@@ -2,7 +2,6 @@ package io.github.ititus.music.maker.player;
 
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 public class FileMusicPiece extends MusicPiece {
@@ -19,7 +18,7 @@ public class FileMusicPiece extends MusicPiece {
     }
 
     @Override
-    public void init(MusicContext context){
+    public void init(MusicContext context) {
         close();
         sound = new DoubleSound(context.getM1(), context.getM2(), file.toFile());
         super.init(context);

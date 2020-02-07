@@ -19,6 +19,27 @@ public class MusicList implements Closeable {
         this.name = name;
     }
 
+    public static MusicList load(MusicContext context) {
+        Gson gson = createGson(context);
+
+        MusicList musicList;
+        try (BufferedReader r = Files.newBufferedReader(context.getMusicListFile())) {
+            musicList = gson.fromJson(r, MusicList.class);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        musicList.context = context;
+        return musicList;
+    }
+
+    private static Gson createGson(MusicContext context) {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(MusicPiece.class, new MusicPiece.MusicPieceTypeAdapter(context))
+                .create();
+    }
+
     public String getName() {
         return name;
     }
@@ -34,20 +55,6 @@ public class MusicList implements Closeable {
         }
     }
 
-    public static MusicList load(MusicContext context) {
-        Gson gson = createGson(context);
-
-        MusicList musicList;
-        try (BufferedReader r = Files.newBufferedReader(context.getMusicListFile())) {
-            musicList = gson.fromJson(r, MusicList.class);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-
-        musicList.context = context;
-        return musicList;
-    }
-
     public void save() {
         Gson gson = createGson(context);
 
@@ -56,12 +63,5 @@ public class MusicList implements Closeable {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-    }
-
-    private static Gson createGson(MusicContext context) {
-        return new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(MusicPiece.class, new MusicPiece.MusicPieceTypeAdapter(context))
-                .create();
     }
 }
