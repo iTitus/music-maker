@@ -37,7 +37,7 @@ public class Main {
 
             System.out.printf("latency=%d%n", synthesizer.getLatency());
 
-            SoundbankLoader.load(synthesizer);
+            SoundbankLoader.load(synthesizer, true);
 
             int channelIndex = 0;
             int instrumentIndex = 0;

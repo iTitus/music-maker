@@ -1,5 +1,10 @@
 package io.github.ititus.music.maker.player;
 
+import io.github.ititus.music.maker.midi.SoundbankLoader;
+
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Synthesizer;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Mixer;
 import java.io.IOException;
@@ -21,6 +26,15 @@ public class MusicPlayer {
         Mixer m2 = AudioSystem.getMixer(Arrays.stream(mixerInfos).filter(i -> i.getName().startsWith("CABLE Input")).findAny().get()); // mixed with microphone
         MusicContext context = new MusicContext(musicListFile, m1, m2);
 
+        Synthesizer synthesizer;
+        try {
+            synthesizer = MidiSystem.getSynthesizer();
+            synthesizer.open();
+        } catch (MidiUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        SoundbankLoader.load(synthesizer, false);
+
         System.out.println("Loading Music...");
 
         MusicList musicList = MusicList.load(context);
@@ -30,11 +44,15 @@ public class MusicPlayer {
 
         MusicPiece currentlyPlaying = null;
         while (true) {
+            if (currentlyPlaying != null && currentlyPlaying.getSound().getState() == SoundState.DONE) {
+                currentlyPlaying = null;
+            }
+
             System.out.println("#".repeat(80));
             System.out.println("Music Player. Press 'q' to exit or 'p <number>' to play that song.");
             if (currentlyPlaying != null) {
                 System.out.printf("Currently playing: %s%n", currentlyPlaying.getName());
-                System.out.println("Press 'p' to pause, 's' to stop or 'r' to resume playing.");
+                System.out.println("Press 'p' to pause/play or 's' to stop.");
             }
             System.out.printf("Current Music List: %s%n", musicList.getName());
             System.out.println("Song List:");
@@ -51,16 +69,10 @@ public class MusicPlayer {
             String in = parts[0];
             parts = Arrays.copyOfRange(parts, 1, parts.length);
 
-            if (currentlyPlaying != null && currentlyPlaying.getSound().getState() == SoundState.DONE) {
-                currentlyPlaying = null;
-            }
-
             if (in.equalsIgnoreCase("q")) {
                 break;
             } else if (in.equalsIgnoreCase("p")) {
-                if (currentlyPlaying != null && currentlyPlaying.getSound().getState() == SoundState.PLAYING) {
-                    currentlyPlaying.getSound().pause();
-                } else if (parts.length == 1) {
+                if (parts.length == 1) {
                     int i = -1;
                     try {
                         i = Integer.parseInt(parts[0]);
@@ -68,28 +80,33 @@ public class MusicPlayer {
                     }
 
                     if (i < 0 || i >= musicPieces.size()) {
-                        System.out.printf("Unrecognized option: %s%n", in);
+                        System.out.printf("Music Piece does not exist: %d%n", i);
                         continue;
+                    }
+
+                    if (currentlyPlaying != null && (currentlyPlaying.getSound().getState() == SoundState.PLAYING || currentlyPlaying.getSound().getState() == SoundState.PAUSED)) {
+                        currentlyPlaying.getSound().stop();
                     }
 
                     currentlyPlaying = musicPieces.get(i);
                     System.out.printf("Now playing: %s%n", currentlyPlaying.getName());
                     currentlyPlaying.getSound().play();
+                    continue;
+                } else if (parts.length == 0 && currentlyPlaying != null) {
+                    SoundState state = currentlyPlaying.getSound().getState();
+                    if (state == SoundState.PLAYING) {
+                        currentlyPlaying.getSound().pause();
+                    } else if (state == SoundState.PAUSED) {
+                        currentlyPlaying.getSound().resume();
+                    }
+                    continue;
                 }
-                continue;
             } else if (in.equalsIgnoreCase("s")) {
                 if (currentlyPlaying != null && (currentlyPlaying.getSound().getState() == SoundState.PLAYING || currentlyPlaying.getSound().getState() == SoundState.PAUSED)) {
                     currentlyPlaying.getSound().stop();
                     currentlyPlaying = null;
                 } else {
                     System.out.println("Nothing to stop.");
-                }
-                continue;
-            } else if (in.equalsIgnoreCase("r")) {
-                if (currentlyPlaying != null && currentlyPlaying.getSound().getState() == SoundState.PAUSED) {
-                    currentlyPlaying.getSound().resume();
-                } else {
-                    System.out.println("Not pausing right now.");
                 }
                 continue;
             }
@@ -103,6 +120,7 @@ public class MusicPlayer {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+        synthesizer.close();
         System.out.println("Bye Bye");
     }
 }

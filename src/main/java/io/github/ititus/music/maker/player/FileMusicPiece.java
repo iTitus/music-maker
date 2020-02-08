@@ -2,6 +2,7 @@ package io.github.ititus.music.maker.player;
 
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.nio.file.Path;
 
 public class FileMusicPiece extends MusicPiece {
@@ -26,6 +27,11 @@ public class FileMusicPiece extends MusicPiece {
 
     @Override
     public void serialize(MusicContext ctx, JsonObject obj) {
-        obj.addProperty("path", ctx.getMusicListDir().relativize(file).normalize().toString());
+        Path relative = ctx.getMusicListDir().relativize(file).normalize();
+        String path = relative.toString();
+        if (File.pathSeparatorChar == '\\') {
+            path = path.replace('\\', '/');
+        }
+        obj.addProperty("path", path);
     }
 }
