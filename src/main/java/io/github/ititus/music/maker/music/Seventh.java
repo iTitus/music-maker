@@ -56,8 +56,10 @@ public class Seventh extends Chord {
     public enum Inversion {
         ROOT(Seventh::new),
         FIRST((root, third, fifth, seventh) -> new Seventh(third, fifth, seventh, root.modUp(PERFECT_OCTAVE))),
-        SECOND((root, third, fifth, seventh) -> new Seventh(fifth, seventh, root.modUp(PERFECT_OCTAVE), third.modUp(PERFECT_OCTAVE))),
-        THIRD((root, third, fifth, seventh) -> new Seventh(seventh, root.modUp(PERFECT_OCTAVE), third.modUp(PERFECT_OCTAVE), fifth.modUp(PERFECT_OCTAVE)));
+        SECOND((root, third, fifth, seventh) -> new Seventh(fifth, seventh, root.modUp(PERFECT_OCTAVE),
+                third.modUp(PERFECT_OCTAVE))),
+        THIRD((root, third, fifth, seventh) -> new Seventh(seventh, root.modUp(PERFECT_OCTAVE),
+                third.modUp(PERFECT_OCTAVE), fifth.modUp(PERFECT_OCTAVE)));
 
         private final SeventhBuilder builder;
 

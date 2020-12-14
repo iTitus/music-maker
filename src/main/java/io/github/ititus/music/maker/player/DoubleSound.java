@@ -16,8 +16,10 @@ public class DoubleSound implements Closeable {
             soundStream.transferTo(baos);
 
             try (
-                    AudioInputStream ais1 = AudioSystem.getAudioInputStream(new ByteArrayInputStream(baos.toByteArray()));
-                    AudioInputStream ais2 = AudioSystem.getAudioInputStream(new ByteArrayInputStream(baos.toByteArray()))
+                    AudioInputStream ais1 =
+                            AudioSystem.getAudioInputStream(new ByteArrayInputStream(baos.toByteArray()));
+                    AudioInputStream ais2 =
+                            AudioSystem.getAudioInputStream(new ByteArrayInputStream(baos.toByteArray()))
             ) {
                 DataLine.Info info1 = new DataLine.Info(Clip.class, ais1.getFormat());
                 DataLine.Info info2 = new DataLine.Info(Clip.class, ais2.getFormat());

@@ -18,12 +18,14 @@ import java.util.Scanner;
 public class MusicPlayer {
 
     public static void main(String[] args) {
-        Path musicListFile = Paths.get(System.getProperty("user.home")).resolve("Desktop").resolve("music").resolve("music_list.json");
+        Path musicListFile = Paths.get(System.getProperty("user.home")).resolve("Desktop").resolve("music").resolve(
+                "music_list.json");
 
         System.out.println("Loading Sound System...");
         Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
         Mixer m1 = AudioSystem.getMixer(null); // headphones/speaker
-        Mixer m2 = AudioSystem.getMixer(Arrays.stream(mixerInfos).filter(i -> i.getName().startsWith("CABLE Input")).findAny().get()); // mixed with microphone
+        Mixer m2 =
+                AudioSystem.getMixer(Arrays.stream(mixerInfos).filter(i -> i.getName().startsWith("CABLE Input")).findAny().get()); // mixed with microphone
         MusicContext context = new MusicContext(musicListFile, m1, m2);
 
         Synthesizer synthesizer;

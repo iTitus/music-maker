@@ -24,7 +24,8 @@ public class TestReceiver implements Receiver {
         }
         ShortMessage msg = (ShortMessage) message;
 
-        System.out.printf("[%d] channel=%d, cmd=%d, data1=%d, data2=%d%n", timeStamp, msg.getChannel(), msg.getCommand(), msg.getData1(), msg.getData2());
+        System.out.printf("[%d] channel=%d, cmd=%d, data1=%d, data2=%d%n", timeStamp, msg.getChannel(),
+                msg.getCommand(), msg.getData1(), msg.getData2());
         /*if (msg.getCommand() == ShortMessage.NOTE_ON) {
             channel.noteOn(Tone.get(Note.C, Octave.MIDDLE).getMidiIndex(), 127);
         }*/

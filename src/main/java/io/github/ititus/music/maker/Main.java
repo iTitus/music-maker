@@ -19,7 +19,8 @@ public class Main {
 
     public static void main(String[] args) {
         DeviceProvider.MidiDevices devices = DeviceProvider.get();
-        try (/*Transmitter transmitter = devices.transmitter;*/ Synthesizer synthesizer = devices.synthesizer/*; Sequencer sequencer = devices.sequencer; Receiver receiver = devices.receiver*/) {
+        try (/*Transmitter transmitter = devices.transmitter;*/ Synthesizer synthesizer = devices.synthesizer/*;
+        Sequencer sequencer = devices.sequencer; Receiver receiver = devices.receiver*/) {
             /*if (!sequencer.isOpen()) {
                 try {
                     sequencer.open();
@@ -48,7 +49,8 @@ public class Main {
             channel.programChange(instrumentIndex);
             ChannelPlayer piano = new ChannelPlayer(channel);
 
-            //try (Receiver synthReceiver = synthesizer.getReceiver(); TestReceiver testReceiver = new TestReceiver(synthReceiver)) {
+            //try (Receiver synthReceiver = synthesizer.getReceiver(); TestReceiver testReceiver = new TestReceiver
+            // (synthReceiver)) {
                 /*if (transmitter != null) {
                     transmitter.setReceiver(testReceiver);
                 }*/
@@ -91,7 +93,8 @@ public class Main {
             Triad triadSp = Triad.get(Tone.get(D, MIDDLE), Triad.Type.MINOR, Triad.Inversion.ROOT);
             Triad triadD = Triad.get(Tone.get(G, MIDDLE.down()), Triad.Type.MAJOR, Triad.Inversion.SECOND);
             Triad triadD7 = Triad.get(Tone.get(B, MIDDLE.down()), Triad.Type.DIMINISHED, Triad.Inversion.FIRST);
-            Seventh seventhD7 = Seventh.get(Tone.get(G, MIDDLE.down()), Seventh.Type.DOMINANT, Seventh.Inversion.SECOND);
+            Seventh seventhD7 = Seventh.get(Tone.get(G, MIDDLE.down()), Seventh.Type.DOMINANT,
+                    Seventh.Inversion.SECOND);
             Chord[] cadence = new Chord[] { triadT, triadS, triadD7, triadSp, triadD, triadT };
 
             System.out.println("start");

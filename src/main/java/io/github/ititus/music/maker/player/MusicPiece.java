@@ -12,7 +12,8 @@ import java.util.Map;
 public abstract class MusicPiece implements Closeable {
 
     private static final Map<String, MusicPieceFactory<? extends MusicPiece>> FACTORIES = Map.of(
-            "file", (ctx, name, settings, obj) -> new FileMusicPiece(name, settings, ctx.getMusicListDir().resolve(obj.get("path").getAsString()))
+            "file", (ctx, name, settings, obj) -> new FileMusicPiece(name, settings,
+                    ctx.getMusicListDir().resolve(obj.get("path").getAsString()))
     );
 
     private static final Map<Class<? extends MusicPiece>, String> TYPES = Map.of(
@@ -64,7 +65,8 @@ public abstract class MusicPiece implements Closeable {
     public static class MusicPieceTypeAdapter extends TypeAdapter<MusicPiece> {
 
         private static final Gson GSON = new GsonBuilder()
-                .registerTypeAdapter(MusicPieceSettings.class, MusicPieceSettings.MusicPieceSettingsTypeAdapter.INSTANCE)
+                .registerTypeAdapter(MusicPieceSettings.class,
+                        MusicPieceSettings.MusicPieceSettingsTypeAdapter.INSTANCE)
                 .create();
 
         private final MusicContext context;
@@ -99,7 +101,8 @@ public abstract class MusicPiece implements Closeable {
             String type = obj.get("type").getAsString();
             String name = obj.get("name").getAsString();
             JsonElement settingsElement = obj.get("settings");
-            MusicPieceSettings settings = settingsElement == null ? new MusicPieceSettings() : GSON.fromJson(settingsElement, MusicPieceSettings.class);
+            MusicPieceSettings settings = settingsElement == null ? new MusicPieceSettings() :
+                    GSON.fromJson(settingsElement, MusicPieceSettings.class);
             MusicPiece musicPiece = FACTORIES.get(type).create(context, name, settings, obj);
             musicPiece.init(context);
             return musicPiece;

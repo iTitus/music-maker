@@ -19,7 +19,8 @@ public class SoundbankLoader {
         synthesizer.loadAllInstruments(soundbank);
 
         if (verbose) {
-            System.out.printf("Soundbank: name=%s, desc=%s, vendor=%s, version=%s%n", soundbank.getName(), soundbank.getDescription(), soundbank.getVendor(), soundbank.getVersion());
+            System.out.printf("Soundbank: name=%s, desc=%s, vendor=%s, version=%s%n", soundbank.getName(),
+                    soundbank.getDescription(), soundbank.getVendor(), soundbank.getVersion());
 
             Instrument[] instruments = soundbank.getInstruments();
             System.out.println("Instruments:");
@@ -32,7 +33,8 @@ public class SoundbankLoader {
             System.out.println("Resources:");
             for (int i = 0; i < resources.length; i++) {
                 SoundbankResource res = resources[i];
-                System.out.printf("SoundbankResource: index=%d, name=%s, dataClass=%s, str=%s%n", i, res.getName(), res.getDataClass(), res.toString());
+                System.out.printf("SoundbankResource: index=%d, name=%s, dataClass=%s, str=%s%n", i, res.getName(),
+                        res.getDataClass(), res.toString());
             }
         }
     }

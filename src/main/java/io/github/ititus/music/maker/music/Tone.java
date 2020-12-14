@@ -20,7 +20,8 @@ public class Tone {
         }
         Tone tone = TONES[midiIndex];
         if (tone == null) {
-            TONES[midiIndex] = tone = new Tone(Note.NOTES[midiIndex % Note.OCTAVE_NOTES], Octave.OCTAVES[midiIndex / Note.OCTAVE_NOTES], midiIndex);
+            TONES[midiIndex] = tone = new Tone(Note.NOTES[midiIndex % Note.OCTAVE_NOTES],
+                    Octave.OCTAVES[midiIndex / Note.OCTAVE_NOTES], midiIndex);
         }
         return tone;
     }

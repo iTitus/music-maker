@@ -50,7 +50,10 @@ public class DeviceProvider {
             long msPos = device.getMicrosecondPosition();
             boolean open = device.isOpen();
 
-            System.out.printf("MidiDevice: name=%s, desc=%s, vendor=%s, version=%s, type=%s, isSynthesizer=%b, isSequencer=%b, maxReceivers=%d, maxTransmitters=%d, msPos=%d, open=%b%n", name, description, vendor, version, device.getClass().getSimpleName(), device instanceof Synthesizer, device instanceof Sequencer, maxReceivers, maxTransmitters, msPos, open);
+            System.out.printf("MidiDevice: name=%s, desc=%s, vendor=%s, version=%s, type=%s, isSynthesizer=%b, " +
+                    "isSequencer=%b, maxReceivers=%d, maxTransmitters=%d, msPos=%d, open=%b%n", name, description,
+                    vendor, version, device.getClass().getSimpleName(), device instanceof Synthesizer,
+                    device instanceof Sequencer, maxReceivers, maxTransmitters, msPos, open);
         }
 
         return new MidiDevices(defTransmitter, defReceiver, defSynthesizer, defSequencer);
