@@ -1,6 +1,6 @@
 package io.github.ititus.music.maker.player;
 
-import io.github.ititus.data.Bag;
+import io.github.ititus.data.mutable.Mutable;
 
 import javax.sound.sampled.*;
 import java.io.*;
@@ -9,7 +9,7 @@ import java.net.URL;
 public class DoubleSound implements Closeable {
 
     private final Clip c1, c2;
-    private final Bag<SoundState> state = new Bag<>(SoundState.IDLE);
+    private final Mutable<SoundState> state = Mutable.of(SoundState.IDLE);
 
     public DoubleSound(Mixer m1, Mixer m2, InputStream soundStream) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {

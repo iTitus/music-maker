@@ -5,9 +5,13 @@ plugins {
 group = 'io.github.ititus'
 version = '1.0.0'
 
+wrapper {
+    gradleVersion '7.0.2'
+}
+
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(16)
     }
 
     withSourcesJar()
@@ -16,15 +20,14 @@ java {
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
-    implementation 'io.github.ititus:ititus-commons:1.2.5'
+    implementation 'io.github.ititus:ititus-commons:1.5.3'
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    testImplementation platform('org.junit:junit-bom:5.7.0')
+    testImplementation platform('org.junit:junit-bom:5.7.2')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.assertj:assertj-core:3.18.1'
-    testImplementation 'org.mockito:mockito-core:3.6.28'
+    testImplementation 'org.assertj:assertj-core:3.19.0'
+    testImplementation 'org.mockito:mockito-core:3.10.0'
 }
