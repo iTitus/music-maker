@@ -53,12 +53,3 @@ jobs:
         with:
           name: test-reports-${{ matrix.os }}-${{ matrix.java }}
           path: build/reports
-
-      - name: Build jlink Image with Gradle
-        run: ./gradlew jlinkZip
-
-      - name: Save Image
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-image-${{ matrix.os }}-${{ matrix.java-version }}-${{ matrix.distribution }}
-          path: build/image.zip
