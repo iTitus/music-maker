@@ -1,6 +1,6 @@
 package io.github.ititus.music.maker.player;
 
-import io.github.ititus.data.mutable.Mutable;
+import io.github.ititus.commons.data.mutable.Mutable;
 
 import javax.sound.sampled.*;
 import java.io.*;
