@@ -6,7 +6,7 @@ group = 'io.github.ititus'
 version = '1.0.0'
 
 wrapper {
-    gradleVersion '7.5.1'
+    gradleVersion '8.12.1'
 }
 
 java {
@@ -18,6 +18,12 @@ java {
     withJavadocJar()
 }
 
+javadoc {
+    options {
+        addBooleanOption('Xdoclint:all,-missing', true)
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -26,8 +32,17 @@ dependencies {
     implementation 'io.github.ititus:ititus-commons:2.3.3'
     implementation 'com.google.code.gson:gson:2.12.1'
 
-    testImplementation platform('org.junit:junit-bom:5.11.4')
+
+    testImplementation platform('org.junit:junit-bom:5.12.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.assertj:assertj-core:3.27.3'
     testImplementation 'org.mockito:mockito-core:5.15.2'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
 }
